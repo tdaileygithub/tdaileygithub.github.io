@@ -20,7 +20,15 @@ gem "github-pages", group: :jekyll_plugins
 sudo bundle update
 {% endhighlight %}
 
-# Serve the site
+# Jekyll Plugins  - _config.yml
+{% highlight yaml %}
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+{% endhighlight %}
+
+# Serve the Site
 {% highlight bash %}
 sudo bundle exec jekyll serve --trace
 links http://127.0.0.1:4000
