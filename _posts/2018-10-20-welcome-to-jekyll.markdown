@@ -20,7 +20,7 @@ gem "github-pages", group: :jekyll_plugins
 sudo bundle update
 {% endhighlight %}
 
-# Jekyll Plugins  - _config.yml
+# Jekyll Plugins  _config.yml
 [GitHub Pages Supported Plugins](https://pages.github.com/versions/)
 {% highlight yaml %}
 plugins:
