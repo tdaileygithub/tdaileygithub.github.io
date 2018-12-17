@@ -1,0 +1,23 @@
+---
+title: "Bash on Windows 10"  
+date:   2018-12-16 16:30:34 -0700
+categories: homelab,win10
+---
+
+# Links
+- [https://www.howtogeek.com/261188/how-to-uninstall-or-reinstall-windows-10s-ubuntu-bash-shell/]()
+
+# Bash / in Windows
+    %appdata%\..\Local\lxss\home
+
+# Bash /home in Windows
+    %appdata%\..\Local\lxss\rootfs
+
+# Uninstall
+    lxrun /uninstall
+
+# Uninstall and remove /home
+    lxrun /uninstall /full
+
+# Install
+    lxrun /install
