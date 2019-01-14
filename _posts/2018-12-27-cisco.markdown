@@ -1,0 +1,166 @@
+---
+title: "Cisco notes"  
+date:   2018-12-27 16:30:34 -0700
+categories: cisco,homelab
+---
+
+Time to dust off the cisco home lab.
+
+# Cisco 1841
+
+## Cisco Secuirty Device Manager
+
+2007 era java web based tool for configuring cisco routers
+
+    file:///C:/Program%20Files%20(x86)/Cisco%20Systems/Cisco%20SDM/common/common/launcher.html?ROUTER=192.168.1.xxx
+
+- [https://software.cisco.com/download/home/281795035/type/283768243/release/2.5]()
+- [https://www.manualslib.com/download/405930/Cisco-Router-Sdm-Cd.html]()
+
+### it's 2007 again - Firefox 3 and Java 1.4
+
+- [https://filehippo.com/download_firefox/7071/](Get Firefox 3)
+- [](Java 1.4.2_0_8)
+
+### Fix the DPI scaling on Firefox for 4K screen
+[https://pivotce.com/2017/12/11/fix-java-applications-for-high-dpi-display/]()
+
+### Set Java Heap
+    C:\j2sdk1.4.2_08\jre\bin\jpicpl32.cpl
+
+    -Xms256m
+
+## Cisco Hardening
+
+[https://www.cisco.com/c/en/us/support/docs/ip/access-lists/13608-21.pdf]()
+
+### Disable MOP
+[https://insinuator.net/2015/08/cisco-and-the-maintenance-operation-protocol-mop/](Old DECnet layer 2 management protocol - precending telnet)
+
+    enable
+    configure
+    interface FastEthernet0/0
+    no mop enabled
+    exit
+    interface FastEthernet0/1
+    no mop enabled
+
+## General Setup
+
+### Load new firmware
+[https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960/software/release/12-2_58_se/configuration/guide/2960scg/swiosfs.html#52969]()
+
+    enable
+    archive download-sw /overwrite /reload tftp://192.168.1.xxx/zzz.tar
+
+The 2960 has no extra space in flash for multiple versions.   Need to upgrade in place.
+
+### Set hostname
+    enable
+    configure
+    hostname homer
+    ip domain-name eagle
+
+### Auth login failures and password length
+    security authentication failure rate 3 log
+    security passwords min-length 6
+
+### Set enable password
+    enable
+    configure
+    enable password xxx
+
+### set password encryption
+    enable 
+    configure
+    service password-encryption
+
+Note: enable password must be set to access from telnet or ssh
+
+### telnet 
+    enable
+    configure
+    service tcp-keepalives-in
+    service tcp-keepalives-out    
+    line vty 0 4
+    password xxx
+    exec-timeout 15 0
+
+Open telnet on windows
+
+    telnet
+    o 192.168.1.xxx
+    
+### ssh
+    enable
+    configure
+    crypto key generate rsa  label homer modulus 2048
+    line vty 0 4
+    password 0 xxx
+    username tim password xxx
+    logging synchronous
+    login local
+    exit
+    exit
+    show ip ssh
+
+Open putty on windows
+
+    putty 192.168.1.200    
+
+### web access
+    enable
+    configure
+    no ip http server
+    ip http secure-server
+    ip http authentication local
+    username tim privilege 15 password xxx
+
+### AAA with FreeRadius
+    enable    
+    configure
+    dot1x system-auth-control
+    aaa group server radius homer
+      server 192.168.1.XXX
+    aaa authentication login default local group homer
+    aaa authentication dot1x default group homer
+    aaa authentication eou default group homer
+    aaa authorization exec default local group homer 
+    aaa authorization network default local group homer 
+    aaa session-id common
+
+    ip radius source-interface FastEthernet0/0 
+    radius-server host 192.168.1.5 key 7 xxx
+    radius-server key 7 xxx
+
+    #enable http web access to use default policy - which is local then homer
+    ip http authentication aaa login-authentication default
+
+#### Freeradius users.conf
+
+Allow timaaa user to enter exec
+
+    timaaa  User-Password == "xxx"
+            Cisco-AVPair = "shell:priv-lvl=15"
+
+#### Freeradius clients.conf
+    client 192.168.1.XXX {
+        secret	= XXX
+        shortname	= homer
+    }
+
+#### Freeradius radiusd.conf
+
+Freeradius Default Port is 1812 -- Cisco 1841 is old enough it still uses 1645
+
+    port = 1645
+
+### Connect 2960 switch via NAT
+
+[https://www.youtube.com/watch?v=8WVWoW86Uhw]()
+
+### 2960 enable routing
+[https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960/software/release/12-2_55_se/configuration/guide/scg_2960/swsdm.pdf]()
+
+    configure
+    sdm prefer lanbase-routing
