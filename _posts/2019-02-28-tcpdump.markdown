@@ -1,0 +1,48 @@
+---
+title:  "TCPDUMP"
+date:   2019-02-28 21:10:34 -0700
+categories: networking,homelab
+---
+
+# List interfaces for listening
+    tcpdump -D
+
+# Verbose - Show IP and TCP headers
+    tcpdump -vi eth0
+
+# Packet Count
+    tcpdump -c 5 -vi eth0
+
+# Hex and ASCII output
+    tcpdump -XX-vi eth0
+
+# Save to File
+    tcpdump -w dump.pcap -vi eth0
+
+# ICMP only
+    tcpdump -nni eth0 icmp
+
+# MAC filter
+    tcpdump -nni eth0 ether src 00:00:00:00:00:00
+    tcpdump -nni eth0 ether dst 00:00:00:00:00:00
+
+# IP Host filter
+    tcpdump -nni eth0 src host 8.8.8.8 
+    tcpdump -nni eth0 dst host 8.8.8.8
+    tcpdump -nni eth0 host 8.8.8.8
+
+# IPv6 vs IPv4
+    tcpdump -nni eth0 ip
+    tcpdump -nni eth0 ip6
+
+# port filter
+    tcpdump -nni eth0 port 80
+
+# vlan filter
+    tcpdump -nni eth0 -e vlan 100    
+
+# cidr subnet
+    tcpdump -nni eth0 net 192.168.1.0/24
+
+# DSCP field
+    tcpdump -nni eth0 -v 'ip[1] & 0xfc ==184'
