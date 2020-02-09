@@ -10,6 +10,7 @@ tags: [hashicorp, consul, nomad, go]
 1. Specific version of docker
 2. Nomad requires Docker to be installed with the nomad agent. 
 3. Nomad was developed against Docker 1.8.2 and 1.9.
+4. Firewall
 
 # Host packages
 

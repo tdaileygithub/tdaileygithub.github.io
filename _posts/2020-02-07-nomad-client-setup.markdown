@@ -10,6 +10,7 @@ tags: [hashicorp, consul, nomad, go]
 1. Specific version of docker
 2. Nomad requires Docker to be installed with the nomad agent. 
 3. Nomad was developed against Docker 1.8.2 and 1.9.
+4. Firewall
 
 # Host packages
 
@@ -20,6 +21,7 @@ sudo apt-get install git htop make elinks
 
 sudo apt install docker.io
 sudo systemctl enable docker
+sudo usermod -aG docker $USER
 
 #make tools need for nomad
 sudo apt-get install build-essential

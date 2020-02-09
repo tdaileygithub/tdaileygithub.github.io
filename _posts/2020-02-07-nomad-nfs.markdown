@@ -1,0 +1,61 @@
+---
+title:  "Nomad NFS/Storage Setup"
+date:   2020-02-07 20:10:34 -0700
+categories: homelab
+tags: [hashicorp, consul, nomad, nfs]
+
+---
+# Todo 
+
+1. tennancy
+2. firewall
+
+# Host packages
+
+{% highlight bash %}
+sudo apt-get update
+sudo apt-get upgrade    
+sudo apt-get install apt-get install nfs-kernel-server nfs-common 
+sudo systemctl enable nfs-kernel-server
+{% endhighlight %}
+
+# /etc/exports
+
+{% highlight bash %}
+sudo mkdir /var/nfs/share
+sudo chown nobody:nogroup /var/nfs/general
+{% endhighlight %}
+
+{% highlight bash %}
+/var/nfs/share       192.168.200.0/24(rw,sync,no_subtree_check)
+{% endhighlight %}
+
+# client mount
+
+{% highlight bash %}
+sudo apt-get update
+sudo apt-get upgrade    
+sudo apt-get install apt-get install nfs-common 
+{% endhighlight %}
+
+{% highlight bash %}
+sudo mkdir -p /var/nfs/share
+sudo mount 192.168.200.100:/var/nfs/share /var/nfs/share
+df -h
+sudo touch /var/nfs/share/hello.test
+ls -al /var/nfs/share/
+{% endhighlight %}
+
+{% highlight bash %}
+sudo nano /etc/fstab
+
+192.168.200.100:/var/nfs/share /var/nfs/share nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0
+{% endhighlight %}
+
+# firewall - WIP
+
+{% highlight bash %}
+sudo ufw allow ssh
+sudo ufw allow from 192.168.200.0/24 to any port nfs
+sudo ufw enable
+{% endhighlight %}

@@ -4,6 +4,10 @@ date:   2020-02-07 20:10:34 -0700
 categories: homelab
 tags: [hashicorp, consul, go]
 ---
+# Todo 
+
+1. Firewall
+
 # Host Packages
 
 {% highlight bash %}
