@@ -1,7 +1,8 @@
 ---
 title:  "Go Lang - From Release"
 date:   2020-02-07 20:10:34 -0700
-categories: consul
+categories: hashicorp
+tags: [hashicorp, consul, go]
 ---
 
 # Download Binary & Install /usr/local

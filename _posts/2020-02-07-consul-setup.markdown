@@ -1,15 +1,18 @@
 ---
 title:  "Consul Server Setup"
 date:   2020-02-07 20:10:34 -0700
-categories: consul
+categories: hashicorp
+tags: [hashicorp, consul, go]
 ---
 # Host Packages
 
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install git htop make elinks 
+{% highlight bash %}
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install git htop make elinks 
+{% endhighlight %}
 
-# Go 1.13.7 - Compile From Source
+# Go 1.13.7 - Stable
 
 [see](go-release)
 
