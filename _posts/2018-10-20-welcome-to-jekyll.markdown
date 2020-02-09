@@ -55,6 +55,6 @@ sudo gem install html-pipeline
 [http://127.0.0.1:4000]()
 
 {% highlight bash %}
-sudo bundle exec jekyll serve --trace
+bundle exec jekyll serve --trace
 links http://127.0.0.1:4000
 {% endhighlight %}
