@@ -1,9 +1,15 @@
 ---
-title:  "Gitlab"
+title:  "Nomad Gitlab"
 date:   2020-02-07 20:10:34 -0700
 categories: homelab
 tags: [nomad, gitlab]
 ---
+# Overview
+
+Gitlab CE can do private repo hosting AND docker container registry.
+
+This will allow the nomad units to pull images from a LAN private registry.
+
 # Todo 
 
 1. Specific version of docker -- maybe docker?
