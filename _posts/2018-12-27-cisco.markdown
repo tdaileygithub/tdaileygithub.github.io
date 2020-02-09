@@ -1,7 +1,8 @@
 ---
 title: "Cisco notes"  
 date:   2018-12-27 16:30:34 -0700
-categories: cisco,homelab
+categories: homelab
+tags: [cisco, homelab]
 ---
 
 Time to dust off the cisco home lab.

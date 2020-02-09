@@ -1,7 +1,7 @@
 ---
 title:  "Consul Server Setup"
 date:   2020-02-07 20:10:34 -0700
-categories: hashicorp
+categories: homelab
 tags: [hashicorp, consul, go]
 ---
 # Host Packages

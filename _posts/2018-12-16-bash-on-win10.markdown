@@ -1,7 +1,8 @@
 ---
 title: "Bash on Windows 10"  
 date:   2018-12-16 16:30:34 -0700
-categories: homelab,win10
+categories: homelab
+tags: [win10, homelab]
 ---
 
 # Links

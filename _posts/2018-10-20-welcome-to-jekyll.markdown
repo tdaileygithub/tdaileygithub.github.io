@@ -2,6 +2,7 @@
 title:  "Github Pages Jekyll Setup"
 date:   2018-10-20 20:10:34 -0700
 categories: jekyll
+tags: [jekyll, homelab]
 ---
 # Install Prereqs
 

@@ -1,7 +1,8 @@
 ---
 title: "TPLink HS110 Power Monitoring with Emoncms and pyHS100"  
 date:   2018-10-31 20:10:34 -0700
-categories: powermonitor
+categories: homelab
+tags: [powermonitor, homelab]
 ---
 
 # Links
