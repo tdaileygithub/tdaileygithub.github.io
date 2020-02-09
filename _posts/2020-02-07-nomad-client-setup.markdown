@@ -1,5 +1,5 @@
 ---
-title:  "Nomad Server Setup"
+title:  "Nomad Client Setup"
 date:   2020-02-07 20:10:34 -0700
 categories: hashicorp
 tags: [hashicorp, consul, nomad, go]
@@ -17,9 +17,7 @@ tags: [hashicorp, consul, nomad, go]
 sudo apt-get update
 sudo apt-get upgrade    
 sudo apt-get install git htop make elinks 
-{% endhighlight %}
 
-{% highlight bash %}
 sudo apt install docker.io
 sudo systemctl enable docker
 
@@ -115,41 +113,33 @@ enable_syslog = true
 log_level = "DEBUG"
 {% endhighlight %}
 
-# /etc/nomad.d/server.hcl
+# /etc/nomad.d/client.hcl
 
 {% highlight bash %}
-sudo touch /etc/nomad.d/server.hcl
+sudo touch /etc/nomad.d/client.hcl
 {% endhighlight %}
 
 {% highlight text %}
-data_dir  = "/var/lib/nomad"
-
-bind_addr = "192.168.200.10" 
-
-##advertise {
-#  # Defaults to the first private IP address.
-#  http = "192.168.200.XX"
-#  rpc  = "192.168.200.YY"
-#  serf = "192.168.200.ZZ:5648" 
-#}
-
-server {
+client {
     enabled = true
-    bootstrap_expect = 3
-}
 
-#consul {
-#  address = "127.0.0.1:8500"
-#}
+    server_join {
+        retry_join = [ "192.168.200.XX", "192.168.200.YY", "192.168.200.ZZ" ]
+        retry_max = 3
+        retry_interval = "15s"
+    }
+    
+    #options = {
+    #    "driver.whitelist" = "docker",
+    #    "user.blacklist" = "root,ubuntu"
+    #}
 
-#defaults
-consul {
-    address             = "127.0.0.1:8500"
-    server_service_name = "nomad"
-    client_service_name = "nomad-client"
-    auto_advertise      = true
-    server_auto_join    = true
-    client_auto_join    = true
+    #reserved {
+    #    cpu            = 500
+    #    memory         = 512
+    #    disk           = 1024
+    #    reserved_ports = "22,80,8500-8600"
+    #}
 }
 {% endhighlight %}
 
@@ -163,14 +153,13 @@ sudo systemctl status nomad
 
 # Web UI
 
+The client will now appear on the nomad page.
+
+Jobs can be submitted.
+
 {% highlight bash %}
 ssh -L5555:127.0.0.1:8500 -L5556:192.168.200.10:4646 nomadsrv1
 {% endhighlight %}
 
 - [http://127.0.0.1:5555/ui/]()
 - [http://127.0.0.1:5556/ui/]()
-
-# Force Garbage Collect
-{% highlight bash %}
-curl -X PUT http://localhost:4646/v1/system/gc
-{% endhighlight %}
