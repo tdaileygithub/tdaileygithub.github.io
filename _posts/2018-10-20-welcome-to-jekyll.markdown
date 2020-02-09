@@ -4,13 +4,19 @@ date:   2018-10-20 20:10:34 -0700
 categories: jekyll
 ---
 # Install Prereqs
+
+[https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html]()
+
 {% highlight bash %}
 sudo apt-get install -y build-essential make libxml2 zlib1g zlib1g-dev
 sudo apt-get install -y ruby ruby-dev jekyll
+
 sudo gem install jekyll bundler
+sudo gem update --system
+sudo bundle update --bundler
 {% endhighlight %}
 
-# Create Site using jekyll
+# Create site using jekyll
 {% highlight bash %}
 #from directory above the cloned repot
 sudo jekyll new tdaileygithub.github.io --force
@@ -44,7 +50,10 @@ sudo gem install jekyll-gist
 sudo gem install html-pipeline
 {% endhighlight %}
 
-# Serve the Site
+# Serve
+
+[http://127.0.0.1:4000]()
+
 {% highlight bash %}
 sudo bundle exec jekyll serve --trace
 links http://127.0.0.1:4000
