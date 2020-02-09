@@ -2,7 +2,7 @@
 title:  "Nomad NFS/Storage Setup"
 date:   2020-02-07 20:10:34 -0700
 categories: homelab
-tags: [hashicorp, consul, nomad, nfs]
+tags: [hashicorp, nomad, nfs]
 
 ---
 # Todo 
