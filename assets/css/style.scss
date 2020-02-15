@@ -2,3 +2,12 @@
 ---
 
 @import "jekyll-theme-architect";
+
+//remove indentation of code blocks
+figure { margin: 0px 0px; }
+
+//change theme to have less padding
+pre { 
+    padding: 5px; 
+    margin-bottom: 0px; 
+}
