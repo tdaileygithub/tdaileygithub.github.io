@@ -14,6 +14,7 @@ This will allow the nomad units to pull images from a LAN private registry.
 
 1. Specific version of docker -- maybe docker?
 2. Firewall
+3. Ansible playbook / Packer Script
 
 # Host packages
 

@@ -11,6 +11,16 @@ tags: [hashicorp, consul, nomad, go]
 2. Nomad requires Docker to be installed with the nomad agent. 
 3. Nomad was developed against Docker 1.8.2 and 1.9.
 4. Firewall
+5. Ansible playbook / Packer Script
+6. Is the qemu vm disk downloaded temporary/copy?  How can it be network attached?
+
+## Ponder
+
+If the client nodes themselves are virtual machines everything could be a image.
+
+Then the only setup that would be "manual" would be a proxmox cluster or the esxi setup.
+
+If nomad can handle failing over vms when they crash a cluster of single node esx-i hosts with all vms running as nomad service jobs might be the poor-man, extermely simple, "HA enough" setup if the vm disk images are stored on ceph, gluster, minio, etc.
 
 # Host packages
 
@@ -31,6 +41,9 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt-get update
 sudo apt-get install npm yarn
+
+#qemu and kvm
+sudo apt install qemu qemu-kvm libvirt-bin  bridge-utils  virt-manager
 {% endhighlight %}
 
 # Go 1.13.7 - Stable
@@ -152,6 +165,33 @@ sudo systemctl enable nomad
 sudo systemctl start nomad
 sudo systemctl status nomad
 {% endhighlight %}
+
+# libvirtd
+
+{% highlight bash %}
+sudo service libvirtd start
+sudo update-rc.d libvirtd enable
+sudo adduser username libvirt
+sudo adduser username libvirt-qemu
+
+#https://bugs.launchpad.net/qemu/+bug/1661386
+{% endhighlight %}
+
+## kvm module permission
+#https://bugzilla.redhat.com/show_bug.cgi?id=1479558
+sudo chmod 666 /dev/kvm
+
+{% highlight bash %}
+sudo chmod 666 /dev/kvm
+
+/lib/udev/rules.d/99-kvm.rules 
+KERNEL=="kvm", GROUP="kvm", MODE="0666"
+{% endhighlight %}
+
+## Enable vmware performance counters
+
+[https://github.com/kubernetes/minikube/issues/2968]()
+
 
 # Web UI
 

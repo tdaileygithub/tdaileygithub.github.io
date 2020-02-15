@@ -9,14 +9,19 @@ tags: [hashicorp, nomad, nfs]
 
 1. tennancy
 2. firewall
+3. Ansible playbook / Packer Script
 
 # Host packages
 
 {% highlight bash %}
 sudo apt-get update
 sudo apt-get upgrade    
-sudo apt-get install apt-get install nfs-kernel-server nfs-common 
+sudo apt-get install apt-get install nfs-kernel-server nfs-common elinks
 sudo systemctl enable nfs-kernel-server
+
+#nginx for artifact downloads
+sudo apt-get install nginx
+sudo systemctl enable nginx
 {% endhighlight %}
 
 # /etc/exports
