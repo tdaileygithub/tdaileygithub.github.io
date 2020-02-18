@@ -35,6 +35,18 @@ curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.de
 sudo EXTERNAL_URL="https://127.0.0.1" apt-get install gitlab-ce
 {% endhighlight %}
 
+# Gitlab runner - Fail
+
+omg... no quick support for self sign in runner registration....!!!
+
+jenkins time!
+
+{% highlight bash %}
+wget https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+sudo dpkg -i gitlab-runner_amd64.deb
+sudo systemctl enable gitlab-runner
+{% endhighlight %}
+
 # ssh tunnel
 {% highlight bash %}
 sudo ssh -L 5050:192.168.200.101:5050 -L 5558:192.168.200.101:22 -L443:192.168.200.101:443 tdailey@nomadgitlab
