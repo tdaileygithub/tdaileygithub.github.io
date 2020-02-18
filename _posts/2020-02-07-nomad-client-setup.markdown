@@ -43,7 +43,7 @@ sudo apt-get update
 sudo apt-get install npm yarn
 
 #qemu and kvm
-sudo apt install qemu qemu-kvm libvirt-bin  bridge-utils  virt-manager
+sudo apt install qemu qemu-kvm libvirt-bin  bridge-utils  virt-manager uml-utilities
 {% endhighlight %}
 
 # Go 1.13.7 - Stable
