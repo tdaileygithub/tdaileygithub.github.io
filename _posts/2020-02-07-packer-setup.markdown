@@ -43,3 +43,12 @@ sudo cp $GOPATH/bin/packer /usr/local/bin
 packer -autocomplete-install
 complete -C /usr/local/bin/packer packer
 {% endhighlight %}
+
+# make packer type stuff faster!!
+
+{% highlight bash %}
+PACKER_KEY_INTERVAL=20ms packer build 
+{% endhighlight %}
+
+This command takes minutes off of some builds.  
+The default on my setup seems like it is 1 second or so per keystroke.
