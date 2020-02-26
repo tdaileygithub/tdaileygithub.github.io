@@ -53,7 +53,7 @@ packer -autocomplete-install
 complete -C /usr/local/bin/packer packer
 {% endhighlight %}
 
-# make packer type stuff faster!!
+# make packer type faster over vnc!!
 
 {% highlight bash %}
 PACKER_KEY_INTERVAL=20ms packer build 
