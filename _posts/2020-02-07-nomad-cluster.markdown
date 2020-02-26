@@ -11,12 +11,14 @@ All lans are vmware internal port group and switch
 
 | server       | lan ip          | cpu | ram | disk  |
 |--------------|-----------------|-----|-----|-------|
-| nomadsrv1    | 192.168.200.10  | 2   | 4gb | 100gb |
-| nomadsrv2    | 192.168.200.11  | 2   | 4gb | 100gb |
-| nomadsrv3    | 192.168.200.12  | 2   | 4gb | 100gb |
-| nomadcl1     | 192.168.200.13  | 2   | 4gb | 100gb |
-| nomadnfs     | 192.168.200.100 | 2   | 4gb | 100gb |
-| nomadgitlab  | 192.168.200.101 | 2   | 4gb | 100gb |
+| nomadsrv1    | 192.168.200.200 | 2   | 4GB | 100GB |
+| nomadsrv2    | 192.168.200.201 | 2   | 4GB | 100GB |
+| nomadsrv3    | 192.168.200.202 | 2   | 4GB | 100GB |
+| nomadcl1     | 192.168.200.203 | 2   | 4GB | 100GB |
+| nomadnfs     | 192.168.200.100 | 2   | 4GB | 100GB |
+| nomadgitlab  | 192.168.200.101 | 2   | 4GB | 100GB |
+| nomadjenkins | 192.168.200.102 | 8   | 8GB | 500GB |
+| nomadpfsense | 192.168.200.254 | 2   | 2GB | 10GB  |
 
 # SSH tunnels
 
