@@ -7,21 +7,30 @@ tags: [hashicorp, consul, nomad, go]
 ---
 # Todo 
 
+[https://github.com/hashicorp/packer/issues/8772]()
+
+    set +e
+    ${GOX:?command not found} \
+        -os="${XC_OS:-$ALL_XC_OS}" \
+        -arch="${XC_ARCH:-$ALL_XC_ARCH}" \
+        -parallel=1 \
+        -osarch="!darwin/arm !darwin/arm64" \
+        -ldflags "${GOLDFLAGS}" \
+        -output "pkg/{{.OS}}_{{.Arch}}/packer" \
+        .
+    set -e
+
 # Host packages
 
 {% highlight bash %}
 sudo apt-get update
 sudo apt-get upgrade    
-sudo apt-get install git htop make elinks 
-
-#make tools 
-sudo apt-get install build-essential
-
+sudo apt-get install git make build-essential
 {% endhighlight %}
 
 # Go 1.13.7 - Stable
 
-[see](go-release)
+[install it](go-release)
 
 # Compile Packer 1.5.2 From Source
 
