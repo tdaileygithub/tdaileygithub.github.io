@@ -188,8 +188,111 @@ sudo chmod 666 /dev/kvm
 KERNEL=="kvm", GROUP="kvm", MODE="0666"
 {% endhighlight %}
 
-## Enable vmware performance counters
+# fabio 1.5.13
 
+{% highlight bash %}
+
+mkdir -p $GOPATH/src/github.com/fabiolb 
+cd $GOPATH/src/github.com/fabiolb
+#git clone https://github.com/fabiolb/fabiolb.git
+wget https://github.com/fabiolb/fabio/archive/v1.5.13.zip
+unzip v1.5.13.zip
+cd fabiolb-1.5.13
+#git checkout tags/v1.5.13
+
+make build
+make install
+sudo cp $GOPATH/bin/fabio /usr/local/bin
+{% endhighlight %}
+
+{% highlight bash %}
+sudo mkdir --parents /etc/fabio
+sudo chmod 700 /etc/fabio
+sudo touch /etc/fabio/fabio.properties
+{% endhighlight %}
+
+{% highlight bash %}
+mkdir -p /etc/fabio
+useradd -M -d /etc/fabio -s /sbin/nologin fabio
+{% endhighlight %}
+
+/etc/fabio/fabio.properties
+
+{% highlight text %}
+# These two lines are example of running fabio with HTTPS 
+# certificates#proxy.cs = cs=lb;type=file;cert=/opt/fabio/certs.d/mydomain_com.ca-bundle.crt;key=/opt/fabio/certs.d/mydomain_com.key
+# proxy.addr = :443;cs=lb;tlsmin=tls11;tlsmax=tls12;tlsciphers="0xc02f,0x9f,0xc030,0xc028,0xc014,0x6b,0x39,0x009d,0x0035",#:80
+
+proxy.addr = :9999
+proxy.header.tls = Strict-Transport-Security
+proxy.header.tls.value = "max-age=63072000; includeSubDomains"
+
+ui.addr = 127.0.0.1:9998
+ui.access = ro
+
+runtime.gogc = 800
+
+log.access.target = stdout
+log.access.format =  - - [] ""   ".Referer" ".User-Agent" "" "" "" ""
+log.access.level = INFO
+
+registry.consul.addr = 127.0.0.1:8500
+proxy.maxconn = 20000
+{% endhighlight %}
+
+# /etc/systemd/system/fabio.service
+
+{% highlight text %}
+[Unit]
+Description=Fabio Proxy
+After=syslog.target
+After=network.target
+ 
+[Service]
+LimitMEMLOCK=infinity
+LimitNOFILE=65535
+ 
+Type=simple
+WorkingDirectory=/etc/fabio
+Restart=always
+ExecStart=/usr/local/bin/fabio -cfg fabio.properties
+ 
+# Log to syslog with identifier for syslog to process
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=fabio
+ 
+# No need that fabio messes with /dev
+PrivateDevices=yes
+ 
+# Dedicated /tmp
+PrivateTmp=yes
+ 
+# Make /usr, /boot, /etc read only
+ProtectSystem=full
+ 
+# /home is not accessible at all
+ProtectHome=yes
+ 
+# You will have to run “setcap ‘cap_net_bind_service=+ep’ /opt/fabio/bin/fabio”
+# to be able to bind ports under 1024. This directive allows it to happen:
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+ 
+# Only ipv4, ipv6, unix socket and netlink networking is possible
+# Netlink is necessary so that fabio can list available IPs on startup
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+ 
+# Unprivileged user
+User=fabio
+Group=fabio
+ 
+[Install]
+WantedBy=multi-user.target
+
+{% endhighlight %}
+
+
+## Enable vmware performance counters
 [https://github.com/kubernetes/minikube/issues/2968]()
 
 
@@ -200,8 +303,9 @@ The client will now appear on the nomad page.
 Jobs can be submitted.
 
 {% highlight bash %}
-ssh -L5555:127.0.0.1:8500 -L5556:192.168.200.10:4646 nomadsrv1
+ssh -L5555:127.0.0.1:8500 -L9998:127.0.0.1:9998 -L5556:192.168.200.10:4646 nomadsrv1
 {% endhighlight %}
 
 - [http://127.0.0.1:5555/ui/]()
 - [http://127.0.0.1:5556/ui/]()
+- [http://127.0.0.1:9998/routes]()
