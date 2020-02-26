@@ -46,13 +46,6 @@ make release
 sudo cp $GOPATH/bin/packer /usr/local/bin
 {% endhighlight %}
 
-# packer autocomplete
-
-{% highlight bash %}
-packer -autocomplete-install
-complete -C /usr/local/bin/packer packer
-{% endhighlight %}
-
 # make packer type faster over vnc!!
 
 {% highlight bash %}
