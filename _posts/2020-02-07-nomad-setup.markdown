@@ -172,7 +172,7 @@ ssh -L5555:127.0.0.1:8500 -L5556:192.168.200.10:4646 nomadsrv1
 - [http://127.0.0.1:5555/ui/]()
 - [http://127.0.0.1:5556/ui/]()
 
-# Force Garbage Collect
+# Force Garbage Collect - remove dead jobs
 {% highlight bash %}
 curl -X PUT http://localhost:4646/v1/system/gc
 {% endhighlight %}
