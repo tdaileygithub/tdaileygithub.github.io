@@ -46,7 +46,7 @@ job "qemu-ub1804" {
             # Specifying an artifact is required with the "qemu"
             # driver. This is the # mechanism to ship the image to be run.
             artifact {
-                source = "http://nomadnfs/ubuntu1804"
+                source = "http://192.168.200.100/ubuntu1804"
 
                 options {
                 checksum = "md5:edb6af153236362b8e681e580d73d1ab"
