@@ -7,14 +7,14 @@ tags: [hashicorp, consul, nomad]
 
 # Virtual Machines
 
-All lans are vmware internal port group and switch
+All lans are vmware internal port group and v-switch
 
 | server       | lan ip          | cpu | ram | disk  |
 |--------------|-----------------|-----|-----|-------|
-| nomadsrv1    | 192.168.200.200 | 2   | 4GB | 100GB |
-| nomadsrv2    | 192.168.200.201 | 2   | 4GB | 100GB |
-| nomadsrv3    | 192.168.200.202 | 2   | 4GB | 100GB |
-| nomadcl1     | 192.168.200.203 | 2   | 4GB | 100GB |
+| nomadsrv1    | 192.168.200.200 | 8   | 4GB | 60GB |
+| nomadsrv2    | 192.168.200.201 | 8   | 4GB | 60GB |
+| nomadsrv3    | 192.168.200.202 | 8   | 4GB | 60GB |
+| nomadcl1     | 192.168.200.203 | 8   | 4GB | 60GB |
 | nomadnfs     | 192.168.200.100 | 2   | 4GB | 100GB |
 | nomadgitlab  | 192.168.200.101 | 2   | 4GB | 100GB |
 | nomadjenkins | 192.168.200.102 | 8   | 8GB | 500GB |
