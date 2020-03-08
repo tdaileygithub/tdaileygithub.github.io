@@ -13,14 +13,14 @@ tags: [homelab, ssh]
 
 Web Based SSH Access.
 
-**Concept:**
+**External Access Concept:**
 
 - Users connect through pfsense on :22 through haproxy to fabio "bastion" service and into the virtual machine.
 - Ideally this would be connected to Microsoft Azure AD in the cloud and 2FA with authy.
 
 Very nice.  Online in < 5 minutes.
 
-# Todo 
+# Todo / Explore
 
 1. Firewall
 2. Compile from source?
@@ -46,10 +46,8 @@ cd ~/
 wget https://github.com/bastillion-io/Bastillion/releases/download/v3.09.00/bastillion-jetty-v3.09_00.tar.gz
 sudo tar xfz bastillion-jetty-v3.09_00.tar.gz -C /opt
 echo JETTY_HOME=/opt/Bastillion-jetty/jetty | sudo tee -a /etc/default/bastillion
-
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin
 export PATH=$JAVA_HOME/bin:$PATH
-
 ./startBastillion.sh
 {% endhighlight %}
 
@@ -74,7 +72,9 @@ Restart=on-failure
 WantedBy=multi-user.target
 {% endhighlight %}
 
-# Config File - WEB-INF/classes/BastillionConfig.properties
+# Java Config File 
+
+WEB-INF/classes/BastillionConfig.properties
 
 /opt/Bastillion-jetty/jetty/bastillion/WEB-INF/classes/BastillionConfig.properties
 

@@ -1,0 +1,103 @@
+---
+title:  "Beegfs"
+date:   2020-03-07 00:00:01 -0700
+categories: homelab
+tags: [storage, beegfs]
+
+---
+
+# RTFM - very nice, concise docs
+
+- [https://www.beegfs.io/wiki/ManualInstallWalkThrough#example_setup]()
+- [https://www.beegfs.io/wiki/DownloadInstallationPackages?]()
+- [https://www.beegfs.io/wiki/TrainingHomework]()
+
+# TLDR
+
+- Very simple and easy to understand
+- Expand / shrink cluster is very easy
+- Easy to backup
+- GUI is functional but quite limited
+- No concept of tenants !!!
+  - A shared password "ACL" is only method -- no ip filtering or password per user
+  - Users need accounts on all systems to mount and store metadata
+  - Thus, suitable for enterprise but not shared hosting
+
+# Install - On all servers
+
+{% highlight bash %}
+sudo yum update -y
+sudo yum install -y nano wget curl net-tools
+sudo wget -O /etc/yum.repos.d/beegfs-rhel7.repo https://www.beegfs.io/release/beegfs_7_1/dists/beegfs-rhel7.repo
+sudo rpm --import https://www.beegfs.io/release/beegfs_7_1/gpg/RPM-GPG-KEY-beegfs
+sudo yum update -y
+
+#danger -- docs do not enumerate what to open?
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+{% endhighlight %}
+
+# Install - Metadata Server
+
+{% highlight bash %}
+sudo yum install -y beegfs-meta libbeegfs-ib
+sudo mkdir -p /data/beegfs/beegfs_meta
+sudo /opt/beegfs/sbin/beegfs-setup-meta -p /data/beegfs/beegfs_meta -m beegfsmgmt
+{% endhighlight %}
+
+# Install - Storage Server
+
+{% highlight bash %}
+sudo yum install -y beegfs-storage libbeegfs-ib
+# /opt/beegfs/sbin/beegfs-setup-storage -p /mnt/myraid1/beegfs_storage -s 3 -i 301 -m node01
+# the storage target is usually a raid volume
+sudo mkdir -p /data/beegfs_storage
+sudo /opt/beegfs/sbin/beegfs-setup-storage -p /data/beegfs_storage -m beegfsmgmt
+{% endhighlight %}
+
+# Install - Management Server
+
+{% highlight bash %}
+sudo yum install -y beegfs-mgmtd
+sudo mkdir -p /data/beegfs/beegfs_mgmtd
+sudo /opt/beegfs/sbin/beegfs-setup-mgmtd -p /data/beegfs/beegfs_mgmtd
+{% endhighlight %}
+
+# Install - Admon Server
+
+Should also install Client Role services too.
+
+{% highlight bash %}
+sudo yum install -y beegfs-client beegfs-admon beegfs-utils 
+sudo mkdir -p /data/beegfs/beegfs_mgmtd
+sudo /opt/beegfs/sbin/beegfs-setup-mgmtd -p /data/beegfs/beegfs_mgmtd
+{% endhighlight %}
+
+## /etc/beegfs/beegfs-admon.conf
+
+    sysMgmtdHost=beegfsmgmt
+
+## http://127.0.0.1:8000
+
+    java -jar /opt/beegfs/beegfs-admon-gui/beegfs-admon-gui.jar 
+
+- User: Information    Pass: information
+- User: Administrator  Pass: admin
+
+# Install - Client Server
+
+{% highlight bash %}
+sudo yum install -y beegfs-client beegfs-helperd
+sudo mkdir -p /data/beegfs/beegfs_mgmtd
+sudo /opt/beegfs/sbin/beegfs-setup-mgmtd -p /data/beegfs/beegfs_mgmtd
+{% endhighlight %}
+
+# start services
+
+    ssh tdailey@node01 systemctl start beegfs-mgmtd
+    ssh tdailey@node02 systemctl start beegfs-meta
+    ssh tdailey@node03 systemctl start beegfs-storage
+    ssh tdailey@node04 systemctl start beegfs-helperd
+    ssh tdailey@node04 systemctl start beegfs-client
+    ssh tdailey@node05 systemctl start beegfs-admon
