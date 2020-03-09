@@ -42,7 +42,7 @@ docker login 127.0.0.1:5050
 # Consul and Nomad Web Access
 
 {% highlight bash %}
-ssh -L5555:127.0.0.1:8500 -L5556:192.168.200.10:4646 nomadsrv1
+ssh -L5555:127.0.0.1:8500 -L5556:192.168.200.200:4646 nomadsrv1
 {% endhighlight %}
 
 - [http://127.0.0.1:5555/ui/]()
