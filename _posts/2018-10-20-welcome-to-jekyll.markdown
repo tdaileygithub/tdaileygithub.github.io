@@ -35,7 +35,6 @@ plugins:
   - jekyll-avatar
   - jekyll-sitemap
   - jekyll-paginate
-  - jekyll-relative-links
   - jekyll-seo-tag
   - jekyll-gist
 {% endhighlight %}
@@ -45,7 +44,6 @@ sudo gem install jekyll-feed
 sudo gem install jekyll-avatar
 sudo gem install jekyll-sitemap
 sudo gem install jekyll-paginate
-sudo gem install jekyll-relative-links
 sudo gem install jekyll-seo-tag
 sudo gem install jekyll-gist
 sudo gem install html-pipeline
