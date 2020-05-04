@@ -10,7 +10,7 @@ tags: [jekyll, homelab]
 
 {% highlight bash %}
 sudo apt-get install -y build-essential make libxml2 zlib1g zlib1g-dev
-sudo apt-get install -y ruby ruby-dev jekyll
+sudo apt-get install -y ruby ruby-dev
 
 sudo gem install jekyll bundler
 sudo gem update --system
