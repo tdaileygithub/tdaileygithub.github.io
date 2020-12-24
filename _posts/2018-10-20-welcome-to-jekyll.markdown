@@ -54,6 +54,9 @@ sudo gem install html-pipeline
 [http://127.0.0.1:4000]()
 
 {% highlight bash %}
-bundle exec jekyll serve --trace
-links http://127.0.0.1:4000
+bundle exec jekyll serve --trace -P 4001
+links http://127.0.0.1:4001
+
+nomachine nx: protocol uses default port 4000
+
 {% endhighlight %}
