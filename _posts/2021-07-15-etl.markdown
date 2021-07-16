@@ -1,0 +1,84 @@
+---
+title:  "ETL Warehouse Processing"
+date:   2021-07-15 00:00:01 -0700
+categories: data
+tags: [ssis,data]
+
+---
+# Dimension Design
+
+"Dimensions provide the who,what,where,when,why and how surroding a business event.  -Ralph Kimball
+
+## Dimension Table Architecture
+
+- Surrogate Keys
+  - Unique ID column in the warehouse
+  - Insulates from Source Column Changes - i.e. PK from string to int
+  - Allows for Historical Changes
+  - Tip: Use INT for PK instead of GUID as indexes are slower
+- Natural Key - OLTP Key to Warehouse Key
+- Dates - Start/End
+- Flags - True/False 
+  - Example: IsHoliday, IsWorkday, IsCurrentRow
+
+Dimension tables are wide.  Imagine an order with all its child tables like ordering person, address, etc. found in OLTP and bring them all into one table in the warehouse.
+
+## Dimension Types
+
+- Type 0: Fixed, non-changing 
+  - Example: Social Security Number/Customer Key
+- Type 1: Changing attribute, no history is recorded in the warehouse - update in place
+  - Example: Person name change. all previous instances in warehouse are updated 
+- Type 2: Keeps historical changes over time
+  - Example: Price change.  Uses StartDate/EndDate and new row has EndDate = null and IsCurrentRow=True
+- Mini Dimensions
+  -  Move highly volatile columns to seperate table
+  -  Example: Move frequently chaning things like home address to new table.
+- Many 2 Many
+
+# Fact Table
+
+Holds the data to be analyzed.  Hold FK to the dimenson tables and measurement columns with the data being analyzed.
+
+Types
+- Transaction: One row per transaction.
+- Periodic: One row for a group of transcations that happen over time.
+- Accumulating: One row for the lifetime of event.
+
+[https://www.ibm.com/docs/en/ida/9.1?topic=models-fact-tables-entities]()
+
+| Table Feature | Transaction               | Periodic                | Accumulating    |
+| -------- | -------------------------|------------------------ | ------------------------ |
+| Grain    | One row per transaction. | One row per time period | One row for entire lifetime |
+| Dimension  | Date dimeension at lowest granularity | Date dimension at  end of period granularity | Multiple date dimentions |
+| Number of dimensions    |More than periodic fact type | Fewer than transaction fact type | Highest number of dimensions vs. other types |
+| Conformed dimensions    | Uses shared conformed dimensions | Uses shared conformed dimensions | Uses shared conformed dimensions |
+| Measures | Related to transaction activities | Related to periodic activiites | Related to activites which have definite lifetime |
+| Database Size | Largest. Grow fast | Smaller than transaction. | Smallest |
+| Performance | Performs well | Fast | Fast |
+| Insert | Yes | Yes | Yes |
+| Update | No | No | Yes |
+| Delete | No | No | No |
+| Growth | Very Fast | Slow | Slow |
+| Need for aggregate tables | High | No or low | Medium because stored at daily |
+
+# Multidimension Schema Designs
+
+## Star Schema
+
+Fact Table in center surrounded by dimension tables. 
+
+- Every dimension is represented with only 1 dimension table.
+- Dimension tables not joined to each other.
+- Fact contains key + measure.
+
+## Snowflake Schema
+
+Extension of the Star Schema.
+
+- Dimension tables are normalized.
+- Requires additional joins to run a query.
+
+## Galaxy Schema
+
+"Collection of stars".  Has two or more fact tables that can share dimension tables.
