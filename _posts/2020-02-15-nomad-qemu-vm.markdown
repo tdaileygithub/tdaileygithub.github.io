@@ -1,5 +1,5 @@
 ---
-title:  "Nomad w/ Packer GKVM image"
+title:  "Nomad w/ Packer QEMU image"
 date:   2020-02-15 00:00:01 -0700
 categories: homelab
 tags: [hashicorp, consul, nomad, qemu]
