@@ -58,19 +58,22 @@ job "qemu-ub1804" {
 }
 {% endhighlight %}
 
-https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Kashyap-Chamarthy_Effective-Virtual-CPU-Configuration-OSS-EU2018.pdf
+**Notes:**  [https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Kashyap-Chamarthy_Effective-Virtual-CPU-Configuration-OSS-EU2018.pdf]()
 
-<!-- #safest config?? -->
+{% highlight bash %}
+
+#safest config -- maybe?
 sudo qemu-system-x86_64 -m 4096 -cpu kvm64 -smp 2 -vnc :2 -net nic -net tap,ifname=tap0,script=no  ubuntu1804
 
 #best performing
 sudo qemu-system-x86_64 -cpu host -enable-kvm -smp 2 -m 4096  -vnc :2 -net nic -net tap,ifname=tap0,script=no  ubuntu1804
+{% endhighlight %}
 
 # NAT access to the virtual machine
 
-https://felipec.wordpress.com/2009/12/27/setting-up-qemu-with-a-nat/
-https://wiki.gentoo.org/wiki/QEMU/Options
-https://www.redhat.com/en/blog/inception-how-usable-are-nested-kvm-guests
+- [https://felipec.wordpress.com/2009/12/27/setting-up-qemu-with-a-nat/]()
+- [https://wiki.gentoo.org/wiki/QEMU/Options]()
+- [https://www.redhat.com/en/blog/inception-how-usable-are-nested-kvm-guests]()
 
 {% highlight bash %}
 iptables -t nat -A POSTROUTING -o ens192 -j MASQUERADE
