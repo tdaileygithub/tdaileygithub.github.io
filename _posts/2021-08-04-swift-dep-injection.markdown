@@ -1,5 +1,5 @@
 ---
-title:  "Swift - Dependency Injection with Swinject"
+title:  "Swift - Dep. Injection with Swinject"
 date:   2021-08-06 00:00:01 -0700
 categories: swift
 tags: [swift, ios]
