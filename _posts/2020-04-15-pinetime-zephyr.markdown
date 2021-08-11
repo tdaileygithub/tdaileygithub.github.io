@@ -1,5 +1,5 @@
 ---
-title:  "PineTime - Zephyr Apps"
+title:  "PineTime - Zephyr App"
 date:   2020-04-11 00:00:01 -0700
 categories: pinetime
 tags: [zephr, pinetime]
