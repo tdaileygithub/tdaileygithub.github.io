@@ -9,6 +9,7 @@ tags: [hashicorp, consul, nomad, go]
 
 [https://github.com/hashicorp/packer/issues/8772]()
 
+{% highlight bash %}
     set +e
     ${GOX:?command not found} \
         -os="${XC_OS:-$ALL_XC_OS}" \
@@ -19,6 +20,7 @@ tags: [hashicorp, consul, nomad, go]
         -output "pkg/{{.OS}}_{{.Arch}}/packer" \
         .
     set -e
+{% endhighlight %}
 
 # Host packages
 
